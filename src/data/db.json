@@ -1,0 +1,414 @@
+{
+  "Categories": [
+    {
+      "label": "쇼핑",
+      "value": "001",
+      "no": "1",
+      "id": "1"
+    },
+    {
+      "label": "포인트",
+      "value": "002",
+      "no": "2",
+      "id": "2"
+    },
+    {
+      "label": "항공마일리지",
+      "value": "003",
+      "no": "3",
+      "id": "3"
+    },
+    {
+      "label": "할인",
+      "value": "004",
+      "no": "4",
+      "id": "4"
+    },
+    {
+      "id": "fe0c",
+      "label": "카페",
+      "value": "cafe"
+    }
+  ],
+  "Brands": [
+    {
+      "id": "eb59",
+      "no": 1,
+      "code": "0301",
+      "label": "KB카드",
+      "cards": [
+        {
+          "id": "0301_001",
+          "code": "001",
+          "label": "My WE:SH 카드",
+          "no": 1,
+          "minUsage": 400000,
+          "category": "001",
+          "annualFee": [
+            {
+              "value": 15000,
+              "label": "국내외겸용"
+            }
+          ],
+          "condition": [
+            {
+              "value": 400000,
+              "label": "전월 실적 40만원 이상"
+            }
+          ],
+          "benefits": [
+            {
+              "value": 5000,
+              "label": "편의점 10% 할인",
+              "description": "월 할인 한도 제한",
+              "category": "store",
+              "location": "전국",
+              "type": "discount"
+            },
+            {
+              "value": 10000,
+              "label": "OTT 30% 할인",
+              "description": "넷플릭스, 유튜브 프리미엄, 디즈니+ 등 1개 선택",
+              "category": "digital",
+              "location": "온라인",
+              "type": "discount"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c964",
+      "no": 2,
+      "label": "현대카드",
+      "code": "0302",
+      "cards": [
+        {
+          "id": "0302_001",
+          "code": "001",
+          "label": "현대카드 M Edition3",
+          "no": 1,
+          "category": {
+            "value": "2",
+            "label": "포인트"
+          },
+          "minUsage": 500000,
+          "annualFee": [
+            {
+              "value": 30000,
+              "label": "국내외겸용"
+            }
+          ],
+          "condition": [],
+          "benefits": [
+            {
+              "value": 10000,
+              "label": "M포인트 적립",
+              "description": "전월 실적 50만원 이상 시, M포인트 1% 적립",
+              "category": "point",
+              "location": "전국",
+              "type": "point"
+            },
+            {
+              "value": 5000,
+              "label": "커피 업종 20% 할인",
+              "description": "월 1회, 연 6회 제공",
+              "category": "coffee",
+              "location": "전국",
+              "type": "discount"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9b5f",
+      "label": "삼성카드",
+      "code": "0303",
+      "no": 3,
+      "cards": [
+        {
+          "id": "0303_001",
+          "label": "taptap O",
+          "minUsage": 300000,
+          "category": {
+            "label": "쇼핑",
+            "value": "001",
+            "no": "1",
+            "id": "1"
+          },
+          "condition": [
+            {
+              "_id": "7c71b68b-c025-42b6-b38b-ec8706b023af",
+              "label": "",
+              "value": ""
+            }
+          ],
+          "annualFee": [
+            {
+              "_id": "ad51d38c-3589-4854-8ffa-c8a2a5aefb61",
+              "label": "국내전용",
+              "value": 10000
+            },
+            {
+              "_id": "0ce72e2e-e099-4988-96a2-cce30fb30ba4",
+              "label": "해외겸용",
+              "value": 10000
+            }
+          ],
+          "benefits": [
+            {
+              "_id": "17c67d7f-6257-4a72-806c-f951c3f3b9f7",
+              "label": "커피 업종 30~50% 할인",
+              "value": 10000
+            },
+            {
+              "_id": "715eecb6-071c-4cb0-8990-da4ae1fb30c8",
+              "label": "쇼핑 7% 할인",
+              "value": 5000
+            }
+          ],
+          "code": "001",
+          "no": 1
+        },
+        {
+          "id": "0303_002",
+          "label": "삼성카드 & MILEAGE PLATINUM",
+          "minUsage": 500000,
+          "category": {
+            "label": "항공마일리지",
+            "value": "003",
+            "no": "3",
+            "id": "3"
+          },
+          "condition": [
+            {
+              "_id": "2f41cd22-b13e-4ae6-8d96-8392c0f543a3",
+              "label": "",
+              "value": ""
+            }
+          ],
+          "annualFee": [
+            {
+              "_id": "dfc896aa-8bf0-4583-899b-3cdfbe4cfd83",
+              "label": "해외 겸용",
+              "value": 49000
+            }
+          ],
+          "benefits": [
+            {
+              "_id": "796e0117-a082-45f4-8907-f3362a75f949",
+              "label": "인천공항 마티나 라운지 본인 무료",
+              "value": 45000
+            },
+            {
+              "_id": "92cedaca-2250-49bd-825f-147e6e504e5b",
+              "label": "인천공항 커피 무료 (아메리카노)",
+              "value": 4500
+            },
+            {
+              "_id": "333cbb67-c3e4-4eef-8386-cf3875db3b42",
+              "label": "백화점 1% 적립",
+              "value": 10000
+            }
+          ],
+          "code": "002",
+          "no": 2
+        }
+      ]
+    },
+    {
+      "id": "db79",
+      "label": "NH카드",
+      "code": "0304",
+      "no": 4,
+      "cards": []
+    },
+    {
+      "id": "935e",
+      "label": "BC카드",
+      "code": "0305",
+      "no": 5,
+      "cards": []
+    },
+    {
+      "id": "a50f",
+      "label": "신한카드",
+      "code": "0306",
+      "no": 6,
+      "cards": [
+        {
+          "id": "0306_001",
+          "code": "001",
+          "label": "신한카드 Deep Dream",
+          "no": 1,
+          "category": "001",
+          "minUsage": 0,
+          "annualFee": [
+            {
+              "value": 8000,
+              "label": "국내전용"
+            }
+          ],
+          "condition": [],
+          "benefits": [
+            {
+              "value": 0,
+              "label": "모든 가맹점 0.7% 적립",
+              "description": "월 최대 적립 한도",
+              "category": "point",
+              "location": "전국",
+              "type": "point"
+            }
+          ]
+        },
+        {
+          "id": "0306_002",
+          "code": "002",
+          "label": "신한카드 The BEST-F",
+          "no": 2,
+          "category": "001",
+          "minUsage": 300000,
+          "annualFee": [
+            {
+              "value": 202000,
+              "label": "해외 겸용"
+            }
+          ],
+          "condition": [],
+          "benefits": [
+            {
+              "value": 0,
+              "label": "공항 발렛파킹 무료",
+              "description": "월 1회, 연 6회 제공",
+              "category": "parking",
+              "location": "인천공항",
+              "type": "service"
+            },
+            {
+              "value": 15000,
+              "label": "스타벅스 3,900원 할인",
+              "description": "월 1회, 연 6회 제공",
+              "category": "coffee",
+              "location": "전국",
+              "type": "discount"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0adc",
+      "label": "씨티카드",
+      "code": "0307",
+      "no": 7,
+      "cards": []
+    },
+    {
+      "id": "939a",
+      "label": "우리카드",
+      "code": "0309",
+      "no": 8,
+      "cards": [
+        {
+          "id": "0309_001",
+          "code": "001",
+          "label": "카드의정석 EVERY 1",
+          "no": 1,
+          "category": "001",
+          "minUsage": 0,
+          "annualFee": [
+            {
+              "value": 12000,
+              "label": "국내외겸용"
+            }
+          ],
+          "condition": [],
+          "benefits": [
+            {
+              "value": 0,
+              "label": "국내외 가맹점 1% 할인",
+              "description": "월 최대 할인 한도",
+              "category": "discount",
+              "location": "전국",
+              "type": "discount"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6d18",
+      "label": "롯데카드",
+      "code": "0311",
+      "no": 9,
+      "cards": []
+    },
+    {
+      "id": "daa6",
+      "label": "하나카드",
+      "code": "0313",
+      "no": 10,
+      "cards": [
+        {
+          "id": "0313_001",
+          "code": "001",
+          "label": "하나 Mile 1.6 대한항공",
+          "no": 1,
+          "minUsage": 500000,
+          "annualFee": [
+            {
+              "value": 45000,
+              "label": "해외 겸용"
+            }
+          ],
+          "condition": [],
+          "benefits": [
+            {
+              "value": 4000,
+              "label": "스타벅스/커피빈 4천원 할인",
+              "description": "월 할인 한도",
+              "category": "coffee",
+              "location": "전국",
+              "type": "discount"
+            }
+          ],
+          "category": "1"
+        }
+      ]
+    },
+    {
+      "id": "d94d",
+      "label": "광주카드",
+      "code": "0315",
+      "no": 11,
+      "cards": []
+    },
+    {
+      "id": "95b7",
+      "label": "수협카드",
+      "code": "0320",
+      "no": 12,
+      "cards": []
+    },
+    {
+      "id": "e6e9",
+      "label": "제주카드",
+      "code": "0321",
+      "no": 13,
+      "cards": []
+    }
+  ],
+  "UserCards": [
+    {
+      "id": "178a",
+      "cardId": "0302_002",
+      "alias": "새 카드"
+    },
+    {
+      "id": "8d87",
+      "cardId": null,
+      "alias": "새 카드"
+    }
+  ]
+}

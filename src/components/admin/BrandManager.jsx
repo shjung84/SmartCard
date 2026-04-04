@@ -1,126 +1,145 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Plus,
   Trash2,
-  ArrowUp,
-  ArrowDown,
   Edit3,
-  GripVertical,
+  CreditCard,
+  Building2,
 } from 'lucide-react';
+import { Collapse, List, Button, Typography, Space, Tooltip, Modal, Badge, Tag } from 'antd';
+import { useCardStore } from '@/hooks/useCardStore';
 
-const BrandManager = ({
-  sortedBrands,
-  brands,
-  actions,
-  onAddBrand,
-  onAddCard,
-  onEditCard,
-}) => {
-  return (
-    <div className='overflow-hidden rounded-2xl border bg-white shadow-xl'>
-      <div className='flex items-center justify-between bg-slate-900 p-5 font-bold text-white'>
-        <span>카드사 순서 및 관리</span>
-        <button
-          onClick={onAddBrand}
-          className='flex items-center gap-1 rounded-lg bg-amber-500 px-4 py-2 text-sm font-black text-slate-900 transition-colors hover:bg-amber-400'
-        >
-          <Plus size={16} /> 신규 카드사
-        </button>
-      </div>
-      <div className='divide-y'>
-        {sortedBrands.map((brand, idx) => {
-          const originalIndex = brands.findIndex((b) => b.id === brand.id);
-          return (
-            <div key={brand.id} className='bg-white p-4 hover:bg-orange-50'>
-              <div className='mb-3 flex items-center justify-between'>
-                <div className='flex items-center gap-3'>
-                  <div className='flex flex-col gap-1'>
-                    <button
-                      onClick={() =>
-                        actions.updateBrandOrder({
-                          index: originalIndex,
-                          direction: 'up',
-                        })
-                      }
-                      className='text-slate-300 hover:text-amber-500 disabled:opacity-20'
-                      disabled={idx === 0}
-                    >
-                      <ArrowUp size={16} />
-                    </button>
-                    <button
-                      onClick={() =>
-                        actions.updateBrandOrder({
-                          index: originalIndex,
-                          direction: 'down',
-                        })
-                      }
-                      className='text-slate-300 hover:text-amber-500 disabled:opacity-20'
-                      disabled={idx === sortedBrands.length - 1}
-                    >
-                      <ArrowDown size={16} />
-                    </button>
-                  </div>
-                  <GripVertical size={20} className='text-slate-200' />
-                  <div>
-                    <h4 className='text-lg font-black text-slate-800'>
-                      [{brand.no}] {brand.label}
-                    </h4>
-                    <span className='text-[10px] font-bold tracking-widest text-slate-400 uppercase'>
-                      {brand.code}
-                    </span>
-                  </div>
-                </div>
-                <div className='flex items-center gap-1'>
-                  <button
-                    onClick={() => actions.deleteBrand(brand.id)}
-                    className='p-2 text-slate-300 hover:text-red-500'
-                  >
-                    <Trash2 size={18} />
-                  </button>
-                  <button
-                    onClick={() => onAddCard(brand.code)}
-                    className='rounded-lg bg-slate-800 px-3 py-1.5 text-[11px] font-bold text-white'
-                  >
-                    + 카드추가
-                  </button>
-                </div>
-              </div>
-              <div className='ml-12 space-y-2'>
-                {brand.cards.map((card) => (
-                  <div
-                    key={card.id}
-                    className='flex items-center justify-between rounded-xl border border-slate-100 bg-indigo-50 p-3'
-                  >
-                    <div className='text-sm font-bold text-slate-600'>
-                      {card.label}
-                    </div>
-                    <div className='flex items-center gap-2'>
-                      <button
-                        onClick={() => onEditCard(brand.code, card)}
-                        className='p-1.5 text-slate-400 hover:text-blue-500'
-                      >
-                        <Edit3 size={16} />
-                      </button>
-                      <button
-                        onClick={() =>
-                          actions.deleteCard({
-                            brandCode: brand.code,
-                            cardId: card.id,
-                          })
-                        }
-                        className='p-1.5 text-slate-400 hover:text-red-500'
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+const { Panel } = Collapse;
+const { Text } = Typography;
+
+const BrandManager = ({ onAddBrand, onAddCard, onEditCard }) => {
+  const { state, actions } = useCardStore();
+  const { brands = [] } = state;
+
+  const sortedBrands = useMemo(
+    () => [...brands].sort((a, b) => (a.no ?? Infinity) - (b.no ?? Infinity)),
+    [brands],
+  );
+
+  const handleDeleteBrand = (id, label) => {
+    Modal.confirm({
+      title: '브랜드 삭제',
+      content: `${label} 카드사를 삭제하시겠습니까?`,
+      okText: '삭제',
+      okType: 'danger',
+      cancelText: '취소',
+      onOk() {
+        actions.deleteBrand(id);
+      },
+    });
+  };
+
+  const handleDeleteCard = (brandCode, cardId, cardLabel) => {
+    Modal.confirm({
+      title: '카드 삭제',
+      content: `${cardLabel} 카드를 삭제하시겠습니까?`,
+      okText: '삭제',
+      okType: 'danger',
+      cancelText: '취소',
+      onOk() {
+        actions.deleteCard({ brandCode, cardId });
+      },
+    });
+  };
+
+  const header = (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+      <Space size="small">
+        <Building2 size={16} color="#faad14" />
+        <Text strong>카드사 및 카드 관리</Text>
+      </Space>
+      <Button
+        color="warning"
+        variant="solid"
+        size="small"
+        style={{ backgroundColor: '#faad14', borderColor: '#faad14' }}
+        icon={<Plus size={14} />}
+        onClick={(e) => {
+          e.stopPropagation();
+          onAddBrand();
+        }}
+      />
     </div>
+  );
+
+  return (
+    <Collapse expandIconPosition="end" defaultActiveKey={['1']} ghost style={{ background: '#fff', border: '1px solid #f0f0f0', borderRadius: '8px' }}>
+      <Panel header={header} key="1">
+        <List
+          dataSource={sortedBrands}
+          renderItem={(brand) => (
+            <List.Item
+              style={{ padding: '12px', borderBottom: '1px solid #f9f9f9' }}
+              actions={[
+                <Tooltip title="카드 추가">
+                  <Button
+                    variant="text"
+                    icon={<Plus size={16} />}
+                    onClick={() => onAddCard(brand.code)}
+                    style={{ color: '#52c41a' }}
+                  />
+                </Tooltip>,
+                <Tooltip title={brand.cards?.length > 0 ? "카드가 있는 브랜드는 삭제할 수 없습니다" : "삭제"}>
+                  <Button
+                    color="danger"
+                    variant="text"
+                    icon={<Trash2 size={16} />}
+                    disabled={brand.cards?.length > 0}
+                    onClick={() => handleDeleteBrand(brand.id, brand.label)}
+                  />
+                </Tooltip>
+              ]}
+            >
+              <List.Item.Meta
+                avatar={<Badge count={brand.cards?.length} color="#faad14" offset={[0, 30]}><Building2 size={24} color="#bfbfbf" /></Badge>}
+                title={
+                  <Space>
+                    <Tag color="blue">{brand.code}</Tag>
+                    <Text strong>{brand.label}</Text>
+                  </Space>
+                }
+                description={
+                  <List
+                    size="small"
+                    dataSource={brand.cards || []}
+                    renderItem={(card) => (
+                      <List.Item
+                        actions={[
+                          <Button
+                            variant="text"
+                            size="small"
+                            icon={<Edit3 size={14} />}
+                            onClick={() => onEditCard(brand.code, card)}
+                            style={{ color: '#1890ff' }}
+                          />,
+                          <Button
+                            color="danger"
+                            variant="text"
+                            size="small"
+                            icon={<Trash2 size={14} />}
+                            onClick={() => handleDeleteCard(brand.code, card.id, card.label)}
+                          />
+                        ]}
+                      >
+                        <Space>
+                          <CreditCard size={12} color="#bfbfbf" />
+                          <Text style={{ fontSize: '12px' }}>{card.label}</Text>
+                        </Space>
+                      </List.Item>
+                    )}
+                  />
+                }
+              />
+            </List.Item>
+          )}
+        />
+      </Panel>
+    </Collapse>
   );
 };
 

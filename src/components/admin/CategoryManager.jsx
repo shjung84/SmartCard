@@ -1,63 +1,78 @@
-import React, { useState } from 'react';
-import { Trash2 } from 'lucide-react';
+import React, { useMemo } from 'react';
+import { useCardStore } from '@/hooks/useCardStore';
+import { Trash2, Plus, Layers } from 'lucide-react';
+import { Collapse, List, Button, Badge, Typography, Space, Tooltip } from 'antd';
 
-const CategoryManager = ({ categories, categoryUsageCount, actions }) => {
-  const [categoryForm, setCategoryForm] = useState({ label: '' });
+const { Panel } = Collapse;
+const { Text } = Typography;
 
-  const handleAddCategory = () => {
-    if (categoryForm.label.trim()) {
-      actions.addCategory(categoryForm);
-      setCategoryForm({ label: '' });
-    }
-  };
+const CategoryManager = ({ onAddCategory, onDeleteCategory }) => {
+  const { categories, brands } = useCardStore().state;
+
+  const categoriesLists = useMemo(() => {
+    if (!categories?.length) return [];
+    const counts = {};
+    brands?.forEach((brand) => {
+      brand.cards?.forEach((card) => {
+        const catValue = card.category;
+        if (catValue) counts[catValue] = (counts[catValue] || 0) + 1;
+      });
+    });
+    return categories.map((cat) => ({
+      ...cat,
+      count: counts[cat.value] || 0,
+    }));
+  }, [categories, brands]);
+
+  const header = (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+      <Space size="small">
+        <Layers size={16} color="#1890ff" />
+        <Text strong>카테고리 관리</Text>
+      </Space>
+      <Button
+        color="primary"
+        variant="solid"
+        size="small"
+        icon={<Plus size={14} />}
+        onClick={(e) => {
+          e.stopPropagation();
+          onAddCategory();
+        }}
+      />
+    </div>
+  );
 
   return (
-    <div className='overflow-hidden rounded-2xl border bg-white shadow-xl'>
-      <div className='flex items-center justify-between bg-slate-50 p-5 font-bold text-slate-800'>
-        <span>카드 카테고리 관리</span>
-      </div>
-      <div className='divide-y'>
-        {categories.map((cat) => (
-          <div key={cat.id} className='flex items-center justify-between p-4'>
-            <div className='flex items-center gap-3'>
-              <span className='font-bold text-slate-600'>{cat.label}</span>
-              {categoryUsageCount[cat.value] > 0 && (
-                <div className='flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white'>
-                  {categoryUsageCount[cat.value]}
-                </div>
-              )}
-            </div>
-            <button
-              onClick={() => actions.deleteCategory(cat.id)}
-              disabled={categoryUsageCount[cat.value] > 0}
-              className='p-2 text-slate-300 transition-colors hover:text-red-500 disabled:cursor-not-allowed disabled:text-slate-200'
-              title={
-                categoryUsageCount[cat.value] > 0
-                  ? '사용 중인 카드가 있어 삭제할 수 없습니다.'
-                  : '카테고리 삭제'
-              }
+    <Collapse expandIconPosition="end" ghost style={{ background: '#fff', border: '1px solid #f0f0f0', borderRadius: '8px' }}>
+      <Panel header={header} key="1">
+        <List
+          size="small"
+          dataSource={categoriesLists}
+          renderItem={(cat) => (
+            <List.Item
+              actions={[
+                <Tooltip title={cat.count > 0 ? "사용 중인 카테고리는 삭제할 수 없습니다" : "삭제"}>
+                  <Button
+                    color="danger"
+                    variant="text"
+                    icon={<Trash2 size={14} />}
+                    disabled={cat.count > 0}
+                    onClick={() => onDeleteCategory(cat.id)}
+                  />
+                </Tooltip>
+              ]}
             >
-              <Trash2 size={18} />
-            </button>
-          </div>
-        ))}
-      </div>
-      <div className='flex gap-2 border-t p-4'>
-        <input
-          type='text'
-          placeholder='새 카테고리 이름'
-          value={categoryForm.label}
-          onChange={(e) => setCategoryForm({ label: e.target.value })}
-          className='flex-1 rounded-lg border bg-slate-50 p-3 text-sm font-bold'
+              <Space>
+                <Badge count={cat.count} overflowCount={999} color="#f0f0f0" style={{ color: '#999' }} />
+                <Text code style={{ fontSize: '10px' }}>{cat.value}</Text>
+                <Text strong style={{ fontSize: '13px' }}>{cat.label}</Text>
+              </Space>
+            </List.Item>
+          )}
         />
-        <button
-          onClick={handleAddCategory}
-          className='rounded-lg bg-slate-800 px-4 text-sm font-bold text-white'
-        >
-          + 추가
-        </button>
-      </div>
-    </div>
+      </Panel>
+    </Collapse>
   );
 };
 

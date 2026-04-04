@@ -1,8 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
-import UserView from '@/views/UserView';
-import BenefitView from '@/views/BenefitView';
-import AdminView from '@/views/AdminView';
+import UserView from '@/views/Users/UserView';
+import BenefitView from '@/views/Benefits/BenefitView';
+import AdminView from '@/views/admin/AdminView';
+import CardForm from '@/views/admin/CardForm';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,20 @@ const router = createBrowserRouter([
       },
       {
         path: 'Admin', // '/admin' 경로는 AdminView를 렌더링
-        element: <AdminView />,
+        children: [
+          {
+            index: true,
+            element: <AdminView />,
+          },
+          {
+            path: 'Card/Add/:brandCode',
+            element: <CardForm />,
+          },
+          {
+            path: 'Card/Edit/:brandCode/:cardId',
+            element: <CardForm />,
+          },
+        ],
       },
     ],
   },

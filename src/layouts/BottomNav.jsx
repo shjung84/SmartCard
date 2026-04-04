@@ -1,47 +1,59 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Calculator, MapPin, CreditCard } from 'lucide-react';
+import { Calculator, MapPin, UserCircle2 } from 'lucide-react';
+import { Layout, Typography } from 'antd';
+import { motion } from 'framer-motion';
+import '@/styles/common.scss';
+
+const { Footer } = Layout;
+const { Text } = Typography;
 
 const BottomNav = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
+  const getActiveIndex = () => {
+    if (pathname === '/') return 0;
+    if (pathname === '/Benefits') return 1;
+    if (pathname.startsWith('/Admin')) return -1;
+    return 2;
+  };
+
+  const activeIndex = getActiveIndex();
+
+  const renderIndicator = (index) => {
+    if (activeIndex !== index) return null;
+    return (
+      <motion.div
+        layoutId='active-indicator'
+        className='bottom-nav-indicator'
+        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+      />
+    );
+  };
+
+  const NavItem = ({ index, icon: Icon, label, path, disabled }) => {
+    const isActive = activeIndex === index;
+    const isClickable = !disabled && path;
+
+    return (
+      <div
+        className={`bottom-nav-item ${isActive ? 'active' : ''} ${disabled ? 'disabled' : ''}`}
+        onClick={() => isClickable && navigate(path)}
+      >
+        {renderIndicator(index)}
+        <Icon size={20} />
+        <Text className='bottom-nav-text'>{label}</Text>
+      </div>
+    );
+  };
+
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex justify-around items-center z-40 max-w-xl mx-auto rounded-t-xl shadow-[0_-10px_30px_rgba(0,0,0,0.3)]">
-      <button
-        onClick={() => navigate('/')}
-        className={`flex flex-col items-center gap-1.5 transition-all ${
-          pathname === '/'
-            ? 'text-amber-400 font-bold scale-110'
-            : 'text-slate-500'
-        }`}
-      >
-        <Calculator size={22} />
-        <span className="text-[11px] font-bold">피킹률 분석</span>
-      </button>
-      <button
-        onClick={() => navigate('/Benefits')}
-        className={`flex flex-col items-center gap-1.5 transition-all ${
-          pathname === '/Benefits'
-            ? 'text-amber-400 font-bold scale-110'
-            : 'text-slate-500'
-        }`}
-      >
-        <MapPin size={22} />
-        <span className="text-[11px] font-bold">장소별 혜택</span>
-      </button>
-      <button
-        onClick={() => navigate('/Admin')}
-        className={`flex flex-col items-center gap-1.5 transition-all ${
-          pathname === '/Admin'
-            ? 'text-amber-400 font-bold scale-110'
-            : 'text-slate-500'
-        }`}
-      >
-        <CreditCard size={22} />
-        <span className="text-[11px] font-bold">카드 관리</span>
-      </button>
-    </nav>
+    <Footer className='bottom-nav-container'>
+      <NavItem index={0} icon={Calculator} label='분석' path='/' />
+      <NavItem index={1} icon={MapPin} label='혜택' path='/Benefits' />
+      <NavItem index={2} icon={UserCircle2} label='사용자' disabled />
+    </Footer>
   );
 };
 

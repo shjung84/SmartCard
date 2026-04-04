@@ -174,7 +174,7 @@
         {
           "id": "0303_002",
           "label": "삼성카드 & MILEAGE PLATINUM",
-          "minUsage": 500000,
+          "minUsage": 0,
           "category": {
             "label": "항공마일리지",
             "value": "003",
@@ -193,25 +193,45 @@
               "_id": "dfc896aa-8bf0-4583-899b-3cdfbe4cfd83",
               "label": "해외 겸용",
               "value": 49000
+            },
+            {
+              "_id": "ca77e0f9-62bd-474a-92c6-05d66ed369db",
+              "label": "국내 전용",
+              "value": "35000"
             }
           ],
           "benefits": [
             {
-              "_id": "796e0117-a082-45f4-8907-f3362a75f949",
+              "_id": "45c8bdbe-724d-42f3-b295-3e768dabd815",
               "label": "인천공항 마티나 라운지 본인 무료",
-              "value": 45000
+              "value": "45000",
+              "limitDay": 0,
+              "limitMonth": 1,
+              "limitYear": 5,
+              "requirePerformance": true
             },
             {
-              "_id": "92cedaca-2250-49bd-825f-147e6e504e5b",
+              "_id": "8de1bfdb-6e26-46a3-8b7d-716cfcc7898a",
               "label": "인천공항 커피 무료 (아메리카노)",
-              "value": 4500
-            },
-            {
-              "_id": "333cbb67-c3e4-4eef-8386-cf3875db3b42",
-              "label": "백화점 1% 적립",
-              "value": 10000
+              "value": "4500",
+              "limitDay": 1,
+              "limitMonth": 0,
+              "limitYear": 0,
+              "requirePerformance": true
             }
           ],
+          "mileageInfo": {
+            "base": {
+              "cost": 1000,
+              "miles": 1
+            },
+            "special": {
+              "cost": 1000,
+              "miles": 2
+            },
+            "specialLimit": 20000
+          },
+          "minUsageSpecial": 500000,
           "code": "002",
           "no": 2
         }
@@ -408,6 +428,51 @@
     {
       "id": "8d87",
       "cardId": null,
+      "alias": "새 카드"
+    },
+    {
+      "id": "5846",
+      "cardId": null,
+      "alias": "새 카드"
+    },
+    {
+      "id": "6db4",
+      "cardId": null,
+      "alias": "새 카드"
+    },
+    {
+      "id": "684e",
+      "cardId": null,
+      "alias": "새 카드"
+    },
+    {
+      "id": "bd9a",
+      "cardId": null,
+      "alias": "새 카드"
+    },
+    {
+      "id": "fce2",
+      "cardId": null,
+      "alias": "새 카드"
+    },
+    {
+      "id": "243c",
+      "cardId": null,
+      "alias": "새 카드"
+    },
+    {
+      "id": "9827",
+      "cardId": null,
+      "alias": "새 카드"
+    },
+    {
+      "id": "1669",
+      "cardId": "0303_002",
+      "alias": "새 카드"
+    },
+    {
+      "id": "cbaf",
+      "cardId": "0302_001",
       "alias": "새 카드"
     }
   ]

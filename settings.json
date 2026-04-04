@@ -3,6 +3,7 @@
 
   // 파일을 저장할 때마다 포맷터를 실행합니다.
   "editor.formatOnSave": true,
+  "prettier.singleQuote": true,
 
   // 여러 포맷터 중 Prettier를 기본 포맷터로 지정합니다.
   // 이 설정이 가장 중요합니다!

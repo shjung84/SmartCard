@@ -5,6 +5,10 @@ import { fetchData } from '@/store/thunks';
 import Header from '@/layouts/Header';
 import BottomNav from '@/layouts/BottomNav';
 import { selectIsLoading, selectError } from '@/store/slices/ui';
+import { Layout, Spin, Result, ConfigProvider, App } from 'antd';
+import '@/styles/common.scss';
+
+const { Content } = Layout;
 
 const MainLayout = () => {
   const dispatch = useDispatch();
@@ -17,33 +21,39 @@ const MainLayout = () => {
 
   if (isLoading) {
     return (
-      <div className='flex h-screen items-center justify-center bg-slate-900 text-white'>
-        <p className='animate-pulse text-lg font-bold'>
-          데이터를 불러오는 중...
-        </p>
+      <div className='flex items-center justify-center h-screen' style={{ background: '#001529' }}>
+        <Spin size='large' title='데이터를 불러오는 중...' />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className='flex h-screen items-center justify-center bg-red-900 p-4 text-center text-white'>
-        <div>
-          <p className='text-lg font-bold'>오류가 발생했습니다.</p>
-          <p className='mt-2 text-sm'>{error}</p>
-        </div>
+      <div className='flex items-center justify-center h-screen'>
+        <Result status='error' title='오류가 발생했습니다' subTitle={error} />
       </div>
     );
   }
 
   return (
-    <div className='flex min-h-screen flex-col bg-slate-100'>
-      <Header />
-      <main className='mx-auto w-full max-w-xl flex-grow p-2 pb-22'>
-        <Outlet />
-      </main>
-      <BottomNav />
-    </div>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#1890ff',
+          borderRadius: 8,
+        },
+      }}
+    >
+      <App>
+        <Layout style={{ minHeight: '100vh', background: '#f0f2f5' }}>
+          <Header />
+          <Content style={{ padding: '0', maxWidth: '1200px', margin: '0 auto', width: '100%', paddingBottom: '80px' }}>
+            <Outlet />
+          </Content>
+          <BottomNav />
+        </Layout>
+      </App>
+    </ConfigProvider>
   );
 };
 

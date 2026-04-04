@@ -27,6 +27,8 @@ import {
   updateSelectedAnnualFee,
   updateMonthlyBenefits,
   updateMonthlyUsage,
+  updateMileageBaseUsage,
+  updateMileageSpecialUsage,
   updateBenefits,
   selectUiState,
   selectIsLoading,
@@ -88,6 +90,14 @@ export const useCardStore = () => {
     ),
     updateMonthlyUsage: useCallback(
       (usage) => dispatch(updateMonthlyUsage(usage)),
+      [dispatch],
+    ),
+    updateMileageBaseUsage: useCallback(
+      (usage) => dispatch(updateMileageBaseUsage(usage)),
+      [dispatch],
+    ),
+    updateMileageSpecialUsage: useCallback(
+      (usage) => dispatch(updateMileageSpecialUsage(usage)),
       [dispatch],
     ),
     updateBenefits: useCallback(

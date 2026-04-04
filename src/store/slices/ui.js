@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from '@reduxjs/toolkit';
+import { calculateMileageBenefitValue, calculateMonthlyBenefit } from '@/utils/function';
 
 const initialState = {
   selectedBrandCode: '',
@@ -7,6 +8,8 @@ const initialState = {
   selectedAnnualFee: 0,
   monthlyBenefits: 0,
   monthlyUsage: '',
+  mileageBaseUsage: '',
+  mileageSpecialUsage: '',
   selectedBenefitMap: {},
   isLoading: true,
   error: null,
@@ -24,6 +27,8 @@ const resetAnnualFee = (state) => {
 const resetBenefitSelections = (state) => {
   state.monthlyBenefits = 0;
   state.selectedBenefitMap = {};
+  state.mileageBaseUsage = '';
+  state.mileageSpecialUsage = '';
 };
 
 const uiSlice = createSlice({
@@ -54,6 +59,15 @@ const uiSlice = createSlice({
     },
     updateMonthlyUsage: (state, action) => {
       state.monthlyUsage = action.payload;
+      if (!state.mileageBaseUsage || state.mileageBaseUsage === '') {
+        state.mileageBaseUsage = action.payload;
+      }
+    },
+    updateMileageBaseUsage: (state, action) => {
+      state.mileageBaseUsage = action.payload;
+    },
+    updateMileageSpecialUsage: (state, action) => {
+      state.mileageSpecialUsage = action.payload;
     },
     updateBenefits: (state, action) => {
       const { idx, value } = action.payload;
@@ -71,6 +85,8 @@ export const {
   updateSelectedAnnualFee,
   updateMonthlyBenefits,
   updateMonthlyUsage,
+  updateMileageBaseUsage,
+  updateMileageSpecialUsage,
   updateBenefits,
 } = uiSlice.actions;
 
@@ -94,62 +110,92 @@ export const selectPickingResult = createSelector(
   [selectUiState, selectCurrentCard],
   (uiState, currentCard) => {
     const usage = parseInt(uiState.monthlyUsage.replace(/[^0-9]/g, '')) || 0;
-    const benefits = parseInt(uiState.monthlyBenefits) || 0;
     const annualFee = parseInt(uiState.selectedAnnualFee) || 0;
+    
     const baseResult = {
       rate: 0,
-      netRate: 0,
       isValid: false,
+      isSpecialValid: false,
       message: '',
       optimalUsage: 0,
+      totalBenefits: 0,
     };
 
     if (!currentCard) return baseResult;
 
-    const minUsageAmount = currentCard.minUsage || 0;
-    const tierList = currentCard.condition || [];
-    let maxEfficiency = 0;
-    let optimalUsage = 0;
+    const minUsage = currentCard.minUsage || 0;
+    const minUsageSpecial = currentCard.minUsageSpecial || 0;
+    
+    const isPerformanceMet = usage >= minUsage;
+    const isSpecialPerformanceMet = usage >= minUsageSpecial;
+    
+    // 혜택 합산
+    let totalBenefits = 0;
+    const selectedBenefitMap = uiState.selectedBenefitMap || {};
+    const allBenefits = currentCard.benefits || [];
 
+    allBenefits.forEach((benefit, idx) => {
+      if (selectedBenefitMap[idx]) {
+        if (!benefit.requirePerformance) {
+          // 실적 무관 혜택은 무조건 합산
+          totalBenefits += calculateMonthlyBenefit(benefit);
+        } else if (isSpecialPerformanceMet) {
+          // 실적 필요 혜택은 '특별 실적' 충족 시에만 합산
+          totalBenefits += calculateMonthlyBenefit(benefit);
+        }
+      }
+    });
+
+    // 마일리지 계산
+    if (currentCard?.category?.value === '003' && currentCard.mileageInfo) {
+      const baseUsage = parseInt(uiState.mileageBaseUsage.replace(/[^0-9]/g, '')) || 0;
+      const specialUsage = parseInt(uiState.mileageSpecialUsage.replace(/[^0-9]/g, '')) || 0;
+
+      const mileageBenefit = calculateMileageBenefitValue(
+        baseUsage,
+        specialUsage,
+        currentCard.mileageInfo,
+      );
+      totalBenefits += mileageBenefit;
+    }
+
+    // 최적 사용 금액 (기존 로직 유지)
+    const tierList = currentCard.condition || [];
+    let optimalUsage = Math.max(minUsage, minUsageSpecial);
     if (tierList.length > 0) {
+      let maxEfficiency = 0;
       tierList.forEach((tier) => {
-        const minUsageFromLabel =
-          parseInt(tier.label.replace(/[^0-9]/g, ''), 10) || 0;
+        const minUsageFromLabel = parseInt(tier.label.replace(/[^0-9]/g, ''), 10) || 0;
         const tierUsage = minUsageFromLabel * 10000;
-        const tierLimit =
-          parseInt(String(tier.value).replace(/[^0-9]/g, ''), 10) || 0;
-        if (tierUsage === 0) return;
-        const efficiency = (tierLimit / tierUsage) * 100;
-        if (efficiency > maxEfficiency) {
-          maxEfficiency = efficiency;
-          optimalUsage = tierUsage;
+        const tierLimit = parseInt(String(tier.value).replace(/[^0-9]/g, ''), 10) || 0;
+        if (tierUsage > 0) {
+          const efficiency = (tierLimit / tierUsage) * 100;
+          if (efficiency > maxEfficiency) {
+            maxEfficiency = efficiency;
+            optimalUsage = tierUsage;
+          }
         }
       });
     }
 
-    if (optimalUsage === 0) {
-      optimalUsage = minUsageAmount;
+    if (usage <= 0) return { ...baseResult, optimalUsage, totalBenefits };
+
+    const rate = ((totalBenefits - annualFee / 12) / usage) * 100;
+
+    let message = '';
+    if (!isPerformanceMet) {
+      message = `실적 미달 (최소 ${minUsage.toLocaleString()}원 필요)`;
+    } else if (!isSpecialPerformanceMet && allBenefits.some(b => b.requirePerformance)) {
+      message = `특별 혜택 실적 미달 (일부 혜택 제외됨)`;
     }
-
-    if (usage <= 0) return { ...baseResult, optimalUsage };
-
-    if (usage < minUsageAmount) {
-      return {
-        ...baseResult,
-        optimalUsage,
-        message: `실적 미달 (최소 ${minUsageAmount.toLocaleString()}원 필요)`,
-      };
-    }
-
-    const rate = (benefits / usage) * 100;
-    const netRate = ((benefits - annualFee / 12) / usage) * 100;
 
     return {
       rate: parseFloat(rate.toFixed(2)),
-      netRate: parseFloat(netRate.toFixed(2)),
-      isValid: true,
-      message: '',
+      isValid: isPerformanceMet,
+      isSpecialValid: isSpecialPerformanceMet,
+      message,
       optimalUsage,
+      totalBenefits,
     };
   },
 );

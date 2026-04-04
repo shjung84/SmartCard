@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useOutletContext } from 'react-router-dom';
-import UserView from '@/views/UserView';
-import BenefitView from '@/views/BenefitView';
+import { Row, Col } from 'antd';
+import UserView from '@/views/Users/UserView';
+import BenefitView from '@/views/Benefits/BenefitView';
 import { selectBrands } from '@/store/slices/brand';
 import { selectSelectedUserCardIds } from '@/store/slices/card';
 
@@ -39,13 +40,19 @@ const MainPage = () => {
   }, [searchKeyword, myCards]);
 
   return (
-    <main className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
-      <UserView setIsBenefitModalOpen={setIsBenefitModalOpen} />
-      <BenefitView
-        searchKeyword={searchKeyword}
-        setSearchKeyword={setSearchKeyword}
-        filteredBenefits={filteredBenefits}
-      />
+    <main style={{ padding: '16px' }}>
+      <Row gutter={[24, 24]}>
+        <Col xs={24} lg={12}>
+          <UserView setIsBenefitModalOpen={setIsBenefitModalOpen} />
+        </Col>
+        <Col xs={24} lg={12}>
+          <BenefitView
+            searchKeyword={searchKeyword}
+            setSearchKeyword={setSearchKeyword}
+            filteredBenefits={filteredBenefits}
+          />
+        </Col>
+      </Row>
     </main>
   );
 };

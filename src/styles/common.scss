@@ -1,0 +1,175 @@
+/**
+ * 공통 스타일 정의
+ * - Flexbox 유틸리티 클래스
+ * - 레이아웃 관련 클래스
+ * - 기타 자주 사용하는 스타일
+ */
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+/* Flexbox 유틸리티 클래스 */
+.flex {
+  display: flex;
+  &-full {
+    width: 100%;
+  }
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+/* Common Styles */
+.ant-select {
+  width: 100%;
+  font-size: 12px;
+  border-radius: 4px;
+}
+.ant-input-affix-wrapper {
+  width: 100%;
+  font-size: 12px;
+  border-radius: 4px;
+  input {
+    text-align: right;
+  }
+}
+.ant-alert {
+  border-radius: 4px;
+}
+
+/* Common Layouts */
+.main-container {
+  width: 100%;
+  padding: 16px;
+}
+
+/* Header Styles */
+.header-container {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  height: 72px;
+  padding: 0 24px;
+  border-bottom: 1px solid #f0f0f0;
+  background: rgba(255, 255, 255, 0.8);
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(20px);
+}
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+}
+.header-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.header-logo-avatar {
+  background: linear-gradient(135deg, #1890ff 0%, #f759ab 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-title-container {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.header-title {
+  margin: 0 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.5px;
+}
+.header-subtitle {
+  font-size: 10px;
+  font-weight: 900;
+  color: #1890ff;
+  letter-spacing: 1px;
+}
+
+/* Bottom Navigation Styles */
+.bottom-nav-container {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 64px;
+  padding: 0;
+  background: #fff;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+  padding: 8px 0;
+  color: #8c8c8c;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.bottom-nav-item.active {
+  color: #1890ff;
+}
+
+.bottom-nav-item.disabled {
+  color: #bfbfbf;
+  cursor: not-allowed;
+}
+
+.bottom-nav-text {
+  font-size: 10px;
+  color: inherit; /* 부모인 .bottom-nav-item 의 색상을 그대로 따라갑니다. */
+  font-weight: bold;
+}
+
+.bottom-nav-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #1890ff;
+}

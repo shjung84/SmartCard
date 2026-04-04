@@ -1,0 +1,92 @@
+/**
+ * UserViewStyle.scss
+ * 사용자 카드 정보 스타일
+ * @author JSH
+ * @since 2024-06
+ */
+
+.title-box {
+  background: linear-gradient(135deg, #1890ff 0%, #f759ab 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  // .ant-card-body {
+  //   padding: 16px;
+  // }
+}
+
+/* Card Styles */
+.ant-card-head-title {
+  // border: 1px solid #000;
+  .ant-space-item {
+    display: flex;
+  }
+}
+
+.card-stats {
+  margin-top: 12px;
+  &-item {
+    display: flex;
+    padding: 8px;
+    border: 1px solid #ffe58f;
+    background-color: #fffbe6;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+
+    &.special {
+      border-color: #ffa39e;
+      background-color: #fff1f0;
+    }
+    .sub-title {
+      margin-bottom: 0;
+    }
+  }
+}
+.sub-title {
+  font-size: 11px;
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.sub-text {
+  text-align: right;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.bg-calculator {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  opacity: 0.15;
+  .lucide {
+    color: #fff;
+  }
+}
+
+.btn-benefits {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+}
+
+/* Button Benefits Styles */
+.btn-benefits {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  border-radius: 4px;
+}
+
+.button-benefits__text {
+  flex: 1;
+  text-align: left;
+  font-size: 13px;
+}
+
+.button-benefits__icon {
+  flex-shrink: 0;
+}

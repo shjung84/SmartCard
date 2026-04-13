@@ -14,8 +14,8 @@ const BottomNav = () => {
 
   const getActiveIndex = () => {
     if (pathname === '/') return 0;
-    if (pathname === '/Benefits') return 1;
-    if (pathname.startsWith('/Admin')) return -1;
+    if (pathname === '/benefits') return 1;
+    if (pathname.startsWith('/admin')) return -1;
     return 2;
   };
 
@@ -51,7 +51,7 @@ const BottomNav = () => {
   return (
     <Footer className='bottom-nav-container'>
       <NavItem index={0} icon={Calculator} label='분석' path='/' />
-      <NavItem index={1} icon={MapPin} label='혜택' path='/Benefits' />
+      <NavItem index={1} icon={MapPin} label='혜택' path='/benefits' />
       <NavItem index={2} icon={UserCircle2} label='사용자' disabled />
     </Footer>
   );

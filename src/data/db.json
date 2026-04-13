@@ -23,11 +23,6 @@
       "value": "004",
       "no": "4",
       "id": "4"
-    },
-    {
-      "id": "fe0c",
-      "label": "카페",
-      "value": "cafe"
     }
   ],
   "Brands": [
@@ -43,7 +38,12 @@
           "label": "My WE:SH 카드",
           "no": 1,
           "minUsage": 400000,
-          "category": "001",
+          "category": {
+            "label": "쇼핑",
+            "value": "001",
+            "no": "1",
+            "id": "1"
+          },
           "annualFee": [
             {
               "value": 15000,
@@ -89,8 +89,10 @@
           "label": "현대카드 M Edition3",
           "no": 1,
           "category": {
-            "value": "2",
-            "label": "포인트"
+            "label": "포인트",
+            "value": "002",
+            "no": "2",
+            "id": "2"
           },
           "minUsage": 500000,
           "annualFee": [
@@ -262,7 +264,12 @@
           "code": "001",
           "label": "신한카드 Deep Dream",
           "no": 1,
-          "category": "001",
+          "category": {
+            "label": "쇼핑",
+            "value": "001",
+            "no": "1",
+            "id": "1"
+          },
           "minUsage": 0,
           "annualFee": [
             {
@@ -287,7 +294,12 @@
           "code": "002",
           "label": "신한카드 The BEST-F",
           "no": 2,
-          "category": "001",
+          "category": {
+            "label": "쇼핑",
+            "value": "001",
+            "no": "1",
+            "id": "1"
+          },
           "minUsage": 300000,
           "annualFee": [
             {
@@ -335,7 +347,12 @@
           "code": "001",
           "label": "카드의정석 EVERY 1",
           "no": 1,
-          "category": "001",
+          "category": {
+            "label": "쇼핑",
+            "value": "001",
+            "no": "1",
+            "id": "1"
+          },
           "minUsage": 0,
           "annualFee": [
             {
@@ -393,7 +410,12 @@
               "type": "discount"
             }
           ],
-          "category": "1"
+          "category": {
+            "label": "쇼핑",
+            "value": "001",
+            "no": "1",
+            "id": "1"
+          }
         }
       ]
     },

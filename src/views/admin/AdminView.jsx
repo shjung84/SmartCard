@@ -45,10 +45,10 @@ const AdminView = () => {
         <BrandManager
           onAddBrand={() => setIsBrandModalOpen(true)}
           onAddCard={(brandCode) => {
-            navigate(`/Admin/Card/Add/${brandCode}`);
+            navigate(`/admin/Card/Add/${brandCode}`);
           }}
           onEditCard={(brandCode, card) => {
-            navigate(`/Admin/Card/Edit/${brandCode}/${card.id}`);
+            navigate(`/admin/Card/Edit/${brandCode}/${card.id}`);
           }}
         />
       </Space>

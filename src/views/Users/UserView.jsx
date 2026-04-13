@@ -51,7 +51,9 @@ const UserView = () => {
             기본 실적
           </Text>
           <Text className='sub-text'>
-            {currentCard ? `${(currentCard.minUsage / 10000).toLocaleString()} 만원` : '-'}
+            {currentCard && currentCard.minUsage > 0
+              ? `${(currentCard.minUsage / 10000).toLocaleString()} 만원`
+              : '해당 없음'}
           </Text>
         </div>
       </Col>
@@ -61,7 +63,9 @@ const UserView = () => {
             특별 실적
           </Text>
           <Text className='sub-text'>
-            {currentCard ? `${(currentCard.minUsageSpecial / 10000).toLocaleString()} 만원` : '-'}
+            {currentCard && currentCard.minUsageSpecial > 0
+              ? `${(currentCard.minUsageSpecial / 10000).toLocaleString()} 만원`
+              : '해당 없음'}
           </Text>
         </div>
       </Col>
@@ -108,7 +112,7 @@ const UserView = () => {
           }
         >
           <Row gutter={[12, 12]}>
-            <Col xs={12} sm={12}>
+            <Col span={24}>
               <Text type='secondary' className='sub-title'>
                 카드사
               </Text>
@@ -124,10 +128,9 @@ const UserView = () => {
             </Col>
             <Col xs={12} sm={12}>
               <Text type='secondary' className='sub-title'>
-                카드명
+                카드명 {currentCard && `(${currentCard?.category?.label})`}
               </Text>
               <Select
-                style={{ width: '100%' }}
                 placeholder='카드 선택'
                 value={selectedCardId || undefined}
                 onChange={(value) => actions.updateSelectedCardId(value)}
@@ -138,19 +141,19 @@ const UserView = () => {
                 }))}
               />
             </Col>
-            <Col span={24}>
+            <Col xs={12} sm={12}>
               <Text type='secondary' className='sub-title'>
-                카드타입 (연회비)
+                연회비 선택
               </Text>
               <Select
-                style={{ width: '100%' }}
                 placeholder='연회비 선택'
                 value={selectedAnnualFee || undefined}
                 onChange={(value) => actions.updateSelectedAnnualFee(Number(value))}
                 disabled={!currentCard}
-                options={currentCard?.annualFee.map((fee) => ({
+                options={currentCard?.annualFee.map((fee, index) => ({
                   label: `${fee.label} (${Number(fee.value).toLocaleString()}원)`,
                   value: fee.value,
+                  key: index,
                 }))}
               />
             </Col>

@@ -79,7 +79,7 @@ const CardForm = () => {
       cardData,
     });
     message.success('카드 정보가 저장되었습니다.');
-    navigate('/Admin');
+    navigate('/admin');
   };
 
   const header = (
@@ -88,14 +88,14 @@ const CardForm = () => {
         <Button 
           variant="text" 
           icon={<ArrowLeft size={20} />} 
-          onClick={() => navigate('/Admin')} 
+          onClick={() => navigate('/admin')} 
         />
         <Title level={3} style={{ margin: 0 }}>
           {initialCard ? '카드 정보 수정' : '새 카드 등록'}
         </Title>
       </Space>
       <Space>
-        <Button variant="outlined" icon={<X size={16} />} onClick={() => navigate('/Admin')}>취소</Button>
+        <Button variant="outlined" icon={<X size={16} />} onClick={() => navigate('/admin')}>취소</Button>
         <Button 
           color="primary" 
           variant="solid" 

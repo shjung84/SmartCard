@@ -15,22 +15,22 @@ const router = createBrowserRouter([
         element: <UserView />,
       },
       {
-        path: 'Benefits', // '/benefits' 경로는 BenefitView를 렌더링
+        path: 'benefits', // '/benefits' 경로는 BenefitView를 렌더링
         element: <BenefitView />,
       },
       {
-        path: 'Admin', // '/admin' 경로는 AdminView를 렌더링
+        path: 'admin', // '/admin' 경로는 AdminView를 렌더링
         children: [
           {
             index: true,
             element: <AdminView />,
           },
           {
-            path: 'Card/Add/:brandCode',
+            path: 'card/add/:brandCode',
             element: <CardForm />,
           },
           {
-            path: 'Card/Edit/:brandCode/:cardId',
+            path: 'card/edit/:brandCode/:cardId',
             element: <CardForm />,
           },
         ],

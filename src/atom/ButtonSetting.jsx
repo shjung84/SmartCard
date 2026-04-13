@@ -7,7 +7,7 @@ const ButtonSetting = ({ className = '' }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const isAdminPath = pathname.startsWith('/Admin');
+  const isAdminPath = pathname.startsWith('/admin');
 
   return (
     <Button
@@ -16,7 +16,7 @@ const ButtonSetting = ({ className = '' }) => {
       shape='circle'
       size='large'
       icon={<Settings size={22} color={isAdminPath ? '#fff' : '#8c8c8c'} />}
-      onClick={() => navigate('/Admin')}
+      onClick={() => navigate('/admin')}
       className={`flex items-center justify-center ${className}`.trim()}
     />
   );
